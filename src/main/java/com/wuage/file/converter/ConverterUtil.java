@@ -16,6 +16,9 @@ public class ConverterUtil {
             this.add("xlsm");
             this.add("doc");
             this.add("docx");
+            this.add("txt");
+            this.add("ppt");
+            this.add("pptx");
         }
     };
 
