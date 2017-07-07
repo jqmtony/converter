@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/mvc     http://www.springframework.org/schema/mvc/spring-mvc.xsd
+           http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd
+       ">
+	<mvc:annotation-driven />
+	<context:component-scan base-package="com.wuage.file.converter.controller" />
+
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<!-- 二进制格式转换器 -->
+				<bean
+					class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+				<!-- json转化器 -->
+				<bean
+					class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+					<property name="supportedMediaTypes" value="application/json;charset=UTF-8" />
+					<property name="features">
+						<array>
+							<value>WriteDateUseDateFormat</value>
+							<value>QuoteFieldNames</value>
+							<value>WriteNullStringAsEmpty</value>
+							<value>WriteNullListAsEmpty</value>
+							<value>WriteNullNumberAsZero</value>
+							<value>WriteNullBooleanAsFalse</value>
+						</array>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
+		p:prefix="/jsp/" p:suffix=".jsp" /> -->
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- 对静态资源文件的访问 -->
+	<mvc:default-servlet-handler />
+	<!-- 文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 100 * 1024 * 1024 -->
+		<property name="maxUploadSize">
+			<value>104857600</value>
+		</property>
+	</bean>
+
+</beans>
