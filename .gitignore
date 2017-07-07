@@ -1,0 +1,13 @@
+# maven ignore
+target/
+logs/
+*.zip
+*.tar
+*.tar.gz
+.settings/
+.classpath
+.project
+*.log
+.project
+.settings
+.DS_Store
